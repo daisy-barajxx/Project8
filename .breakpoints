@@ -1,3 +1,28 @@
 {
-  "files": {}
+  "files": {
+    "CPSC223/project1/linked_list.hpp": [
+      {
+        "id": "d33cf294-5292-4232-95b2-624f83f08177",
+        "line": 1,
+        "version": 3115,
+        "index": 0
+      }
+    ],
+    "CPSC223/project1/main.cpp": [
+      {
+        "id": "cc0963a2-cfaf-4209-a089-37f2f7080c55",
+        "line": 1,
+        "version": 798,
+        "index": 0
+      }
+    ],
+    "CPSC223/project1/unit_tests.cpp": [
+      {
+        "id": "2645de09-050f-4092-bb7d-3b9c31842f04",
+        "line": 7,
+        "version": 1047,
+        "index": 234
+      }
+    ]
+  }
 }

@@ -1,3 +1,9 @@
+/*
+  Group Name: Daisy Barajas and Liya Tekie
+  Class: CPSC 122, Section 1
+  Date Submitted: April 5, 2024
+  Description: This program will test the functions of the List class that includes a head and tail.
+*/
 #include <iostream>
 using namespace std;
 
@@ -12,13 +18,19 @@ ListT::ListT()
 // destorys dynamically declared memory 
 ListT::~ListT()
 {
-  node* temp = head;
-  while(temp != NULL)
+  node* cur = head;
+  while(cur != NULL)
     {
-      head = temp -> next;
-      delete temp; 
-      temp = head;
+      node* tmp = cur;
+      cur = cur -> next;
+      delete cur; 
     }
+  head = NULL;
+  tail = NULL;
+  length = 0;
+
+  cout << "List is destroyed" << endl;
+  Print();
 }
 
 void ListT::PutItemH(itemType item)
@@ -32,7 +44,6 @@ void ListT::PutItemH(itemType item)
  if (length == 0)
   tail = tmp;  
  length++;
- tail = NULL;
 }
 
 void ListT::Print() const
@@ -50,7 +61,10 @@ void ListT::Print() const
  */ 
  bool ListT::IsEmpty() const 
 {
-  return (head == NULL || tail == NULL);
+  if (head == NULL)
+    return true;
+  else 
+    return false;
 }
 /*
  pre: an instance of ListT exists
@@ -69,13 +83,12 @@ void ListT::Print() const
   length = 0;
   node * tmp = new node;
   tmp -> item = itemIn;
-  tmp -> next = NULL;
-  tail -> next = tmp;
+  tmp -> next = tail;
+  
   tail = tmp;
   if (length == 0)
-    head = tmp;
+    tail = tmp;
   length++;
-  tmp = NULL;
 }
 /*
  pre: an instance of ListT exists and is not empty
@@ -83,6 +96,7 @@ void ListT::Print() const
  */
  itemType ListT::GetItemH() const 
 {
+  node* cur = head;
   if (head != NULL)
     return head -> item;
   else 
@@ -98,11 +112,13 @@ void ListT::Print() const
   {
     node* tmp = head;
     head = head -> next;
+    if (head == NULL)
+      tail = NULL; // if the list is empty 
     delete tmp;
     length--;
   }
   else
-    cout << "List is empty" << endl;
+    cout << "Head is deleted" << endl;
 }
 /*
  pre: an instance of list exists and is not empty
@@ -121,15 +137,26 @@ void ListT::Print() const
  */
  void ListT::DeleteItemT()
 {
-  if (tail != NULL)
+  if (tail != NULL) 
   {
     node* tmp = tail;
-    tail = tail -> next;
-    delete tmp;
-    length--;
-  }
-  else 
-    cout << "List is empty" << endl;
+    if (head == tail) 
+    {
+      head = NULL;
+      tail = NULL;
+    } else if (head != NULL) 
+    {
+      node* cur = head;
+      while (cur -> next != tail) 
+        cur = cur -> next;
+      tail = cur;
+      tail -> next = NULL;
+      delete tmp;
+      length--;
+    } else {
+      cout << "Tail is empty" << endl;
+    }
+  } 
 }
 /*
  pre: an instance of ListT exists and is not empty
@@ -137,13 +164,14 @@ void ListT::Print() const
  */
  int ListT::FindItem(const itemType target) const 
 {
+  node* headd = new node;
   int count = 0;
-  node* cur = head;
-  while (cur != NULL)
+  node* cur = headd;
+  while (cur != NULL) // traverses the list
     {
-      if (cur -> item == target)
+      if (cur -> item == target) // if the item is found in the list
         count++;
-      cur = cur -> next;
+      cur = cur -> next; // traverse the list
     }
   return count;
 }
@@ -157,28 +185,24 @@ void ListT::Print() const
   int count = 0;
   node* cur = head;
   node* prev = NULL;
+  node* tmp = cur;
+  if (prev == NULL)
+    tail = NULL;
+  else if (head == NULL) 
+  {
+    cout << "List is empty" << endl;
+    return 0;
+  }
+  
   while (cur != NULL)
     {
       if (cur -> item == target)
       {
-        if(prev == NULL)
-        {
-          head = head -> next;
-          delete cur;
-          cur = head;
-        }
-        else
-        {
-          prev -> next = cur -> next;
-          delete cur;
-          cur = prev -> next;
-        }
-        count++; // counts the sequence
-        length--; // deletes the sequence
-      }
-      else
-      {
-        prev = cur;
+        cur = cur -> next;
+        delete tmp;
+        count++;
+      } else {
+          prev = cur;
         cur = cur -> next;
       }
     }
